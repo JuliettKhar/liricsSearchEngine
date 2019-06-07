@@ -17,8 +17,15 @@ function onSubmit(event) {
 		const lyric = new Api(artistName, songName);
 		lyric.queryApi()
 				.then( data => {
-					let result = data.liryc.lyrics;
-					console.log(result)
+					if(data.liryc.lyrics) {
+									let result = data.liryc.lyrics;
+									UI.resultDiv.textContent = result;
+					}
+					else {
+									UI.messageDiv.innerHTML = 'No lyrics found';
+									UI.messageDiv.classList.add('error');
+									resetForm();
+						}
 				})
 	}
 	event.preventDefault();
@@ -29,6 +36,15 @@ function clearForm () {
 			UI.messageDiv.innerHTML = '';
 			UI.messageDiv.classList.remove('error');
 		}, 3000);
+}
+
+function resetForm() {
+		setTimeout( () => {
+			UI.messageDiv.innerHTML = '';
+			UI.messageDiv.classList.remove('error');
+			UI.searchForm.reset();
+		}, 3000);
+
 }
 
 function subscribe() {
